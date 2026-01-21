@@ -107,16 +107,17 @@ export default function Home() {
               {/* BDM & Sales */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-1 block">BDM Contact <span className="text-red-500">*</span></label>
-                  <select name="bdm" required className="w-full border border-gray-300 rounded-md p-2.5 outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="">Select BDM</option>
-                    <option>Region A BDM</option>
-                    <option>Region B BDM</option>
-                  </select>
+                  <label className="text-sm font-medium text-gray-700 mb-1 block">
+                    BDM Contact <span className="text-red-500">*</span>
+                  </label>
+                  <input name="bdm" required type="text" placeholder="e.g. Jason.Wang" className="w-full border border-gray-300 rounded-md p-2.5 outline-none focus:ring-2 focus:ring-blue-500"/>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-700 mb-1 block">Sales Contact <span className="text-red-500">*</span></label>
-                  <input name="sales" required type="text" placeholder="Austin77.Ciou" className="w-full border border-gray-300 rounded-md p-2.5 outline-none focus:ring-2 focus:ring-blue-500" />
+                  <label className="text-sm font-medium text-gray-700 mb-1 block">
+                    Sales Contact <span className="text-red-500">*</span>
+                  </label>
+                  <input name ="sales" required type="text" placeholder="e.g. Amy.Lee" className="w-full border border-gray-300 rounded-md p-2.5 outline-none focus:ring-2 focus:ring-blue-500" 
+                  />
                 </div>
               </div>
 
