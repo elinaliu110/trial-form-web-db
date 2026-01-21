@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Product Trial Service Application Portal
 
-## Getting Started
+A modern, responsive web application built with **Next.js 14+** designed for streamlining product trial requests. This system features a sleek UI for users to submit applications, which are then automatically synchronized to a **Google Sheets** database for administrative review.
 
-First, run the development server:
+## 🌟 Key Features
 
+* **Responsive UI/UX**: A clean, professional interface mimicking enterprise-grade service portals, featuring a geometric gradient header.
+* **Dynamic Form Validation**: Built-in validation for required fields such as Product Selection, Contact Info, and Application Scenarios.
+* **Custom Select Menus**: Pre-configured options for **IoTSuite** and **iEMS** product lines, along with specific industrial application scenarios.
+* **Serverless Backend**: Utilizes Next.js API Routes to securely forward data to external APIs, keeping environment variables protected.
+* **Google Sheets Integration**: Instant data logging via Google Apps Script for real-time tracking of BDM/PM approval status.
+* **Interactive Feedback**: Enhanced user experience with submission confirmation dialogs and success modals.
+
+---
+
+## 🛠️ Technical Stack
+
+* **Framework**: Next.js 14 (App Router)
+* **Styling**: Tailwind CSS
+* **Language**: TypeScript
+* **Backend**: Node.js API Routes
+* **Database**: Google Sheets API (via Google Apps Script)
+
+---
+
+## 🚀 Quick Start
+
+### 1. Installation
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+git clone <your-repository-url>
+cd product-trial-portal
+npm install
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2. Environment SetupCreate a .env.local file in the root directory and add your Google Apps Script URL:PlaintextNEXT_PUBLIC_GOOGLE_SCRIPT_URL=[https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec](https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec)
+3. Development ModeBashnpm run dev
+Open http://localhost:3000 to view the application.📂 Project Structure/app/api/submit/route.ts: The backend logic that handles the POST request and forwards it to Google Sheets./app/page.tsx: The main application page containing the form UI and state management./lib/options.ts: Centralized configuration for product lists and scenario options.📊 Data Mapping (Google Sheets)The application automatically maps the following fields to your spreadsheet columns:ColumnHeader NameData FieldATimestampSubmission Date & TimeBProductdata.productCScenariodata.scenarioDCompanydata.companyEContact Namedata.contactNameFContact Emaildata.contactEmailGBDM Contactdata.bdmHSales Contactdata.salesICommentsdata.comments📝 Future Roadmap[ ] Email Automation: Automatically notify the assigned BDM when a new request is submitted.[ ] File Upload: Allow users to attach requirement specifications or architectural diagrams.[ ] Admin Dashboard: A protected view to update the status of trials directly within the web app.
