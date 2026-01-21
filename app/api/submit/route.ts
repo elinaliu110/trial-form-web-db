@@ -13,9 +13,6 @@ export async function POST(req: Request) {
     }
 
     const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-    console.log("Check URL:", process.env.NEXT_PUBLIC_SUPABASE_URL);
-    console.log("Check KEY length:", process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.length);
     const data = await req.json();
 
     const { data: insertedData, error } = await supabase
