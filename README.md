@@ -70,10 +70,4 @@ The application automatically maps the following fields to your spreadsheet colu
 
 ---
 
-## 📝 Future Roadmap
-
-- [ ] Email Automation: Automatically notify the assigned BDM when a new request is submitted.
-- [ ] File Upload: Allow users to attach requirement specifications or architectural diagrams.
-- [ ] Admin Dashboard: A protected view to update the status of trials directly within the web app.
-
 
