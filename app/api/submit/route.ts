@@ -1,54 +1,52 @@
 import { NextResponse } from 'next/server';
+import { createClient } from '@supabase/supabase-js';
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
-    const scriptUrl = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL;
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-    console.log("Debug: Received request body", body);
-    
-    if (!scriptUrl) {
-      console.error("Debug Error: NEXT_PUBLIC_GOOGLE_SCRIPT_URL is missing!");
-      return NextResponse.json({ error: 'Server configuration error' }, { status: 500 });
+    // 除錯檢查：如果變數缺失，直接報錯而不執行 fetch
+    if (!supabaseUrl || !supabaseAnonKey) {
+      console.error("Missing Supabase Environment Variables!");
+      return NextResponse.json({ error: 'Server Config Missing' }, { status: 500 });
     }
 
-    // 建立 8 秒超時控制，避免 fetch 永久卡住
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 8000);
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-    try {
-      const res = await fetch(scriptUrl, {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'text/plain;charset=utf-8' 
+    console.log("Check URL:", process.env.NEXT_PUBLIC_SUPABASE_URL);
+    console.log("Check KEY length:", process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.length);
+    const data = await req.json();
+
+    const { data: insertedData, error } = await supabase
+      .from('applications')
+      .insert([
+        {
+          product: data.product,
+          scenario: data.scenario,
+          company: data.company,
+          contact_name: data.contactName,
+          contact_email: data.contactEmail,
+          bdm: data.bdm,
+          sales: data.sales,
+          comments: data.comments,
         },
-        body: JSON.stringify(body),
-        signal: controller.signal,
-      });
+      ]);
 
-      clearTimeout(timeoutId);
+    if (error) throw error;
 
-      if (!res.ok) {
-        const errorText = await res.text();
-        console.error("Debug Error: Google Script returned", errorText);
-        return NextResponse.json({ error: 'Google Script Error', details: errorText }, { status: 502 });
-      }
-
-      return NextResponse.json({ message: 'Success' });
-
-    } catch (fetchError: any) {
-      clearTimeout(timeoutId);
-      if (fetchError.name === 'AbortError') {
-        console.error('Detailed Fetch Error: Request Timed Out (8s)');
-        return NextResponse.json({ error: 'Connection to Google Timed Out' }, { status: 504 });
-      }
-      // 這裡會印出具體原因，例如 ECONNREFUSED (網路被擋)
-      console.error('Detailed Fetch Error:', fetchError.cause || fetchError.message);
-      return NextResponse.json({ error: 'Network fetch failed', details: fetchError.message }, { status: 500 });
-    }
+    return NextResponse.json({ message: 'Success' });
 
   } catch (error: any) {
-    console.error('Debug Fatal Error:', error.message);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    // 關鍵：印出 error.cause 才能看到真正的網路錯誤
+    console.error('Detailed Debug Error:', {
+      message: error.message,
+      cause: error.cause, // 這裡通常會寫為什麼 fetch 失敗
+      stack: error.stack
+    });
+    return NextResponse.json({ 
+      error: error.message, 
+      reason: error.cause?.message || "Check Server Logs" 
+    }, { status: 500 });
   }
 }
