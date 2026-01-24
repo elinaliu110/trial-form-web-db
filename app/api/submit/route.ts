@@ -6,7 +6,7 @@ export async function POST(req: Request) {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-    // 除錯檢查：如果變數缺失，直接報錯而不執行 fetch
+    // 如果變數缺失，直接報錯而不執行 fetch
     if (!supabaseUrl || !supabaseAnonKey) {
       console.error("Missing Supabase Environment Variables!");
       return NextResponse.json({ error: 'Server Config Missing' }, { status: 500 });
@@ -35,10 +35,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: 'Success' });
 
   } catch (error: any) {
-    // 關鍵：印出 error.cause 才能看到真正的網路錯誤
+    // 印出 error.cause 
     console.error('Detailed Debug Error:', {
       message: error.message,
-      cause: error.cause, // 這裡通常會寫為什麼 fetch 失敗
+      cause: error.cause, 
       stack: error.stack
     });
     return NextResponse.json({ 
