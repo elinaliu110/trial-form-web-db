@@ -29,7 +29,7 @@ TrialForm
 │   └── options.ts            # Centralized configuration for product lists and scenario options
 ├── image/                    # Image
 │   └── TrialFormPortal.png   # Web UI
-└── package.json              # Project dependencies and scripts
+├── package.json              # Project dependencies and scripts
 └── README.md                 # Document
 ```
 ---
